@@ -20,10 +20,6 @@ import (
 	"github.com/pion/webrtc/v4"
 )
 
-const (
-// clientOfferSdp = "eyJzZHAiOiJ2PTBcclxubz0tIDc0MzAxNTIwNDU0NDA1NDE5NzEgMiBJTiBJUDQgMTI3LjAuMC4xXHJcbnM9LVxyXG50PTAgMFxyXG5hPWdyb3VwOkJVTkRMRSAwXHJcbmE9ZXh0bWFwLWFsbG93LW1peGVkXHJcbmE9bXNpZC1zZW1hbnRpYzogV01TXHJcbm09YXBwbGljYXRpb24gOSBVRFAvRFRMUy9TQ1RQIHdlYnJ0Yy1kYXRhY2hhbm5lbFxyXG5jPUlOIElQNCAwLjAuMC4wXHJcbmE9aWNlLXVmcmFnOjNVanRcclxuYT1pY2UtcHdkOnI3c0dEOWczWlgrTHVXY3VtNEZKZWU2cFxyXG5hPWljZS1vcHRpb25zOnRyaWNrbGVcclxuYT1maW5nZXJwcmludDpzaGEtMjU2IDREOjFCOkIwOjYyOjgzOjZDOjExOkU0OjI3OjQ0OkNCOkUwOjk2OkFEOkYxOjgxOkY0Ojk2OjdCOjNCOjY2OjE5OjdGOjFFOjA5OjlFOkVFOkJCOjdGOkVDOjg3OjU5XHJcbmE9c2V0dXA6YWN0cGFzc1xyXG5hPW1pZDowXHJcbmE9c2N0cC1wb3J0OjUwMDBcclxuYT1tYXgtbWVzc2FnZS1zaXplOjI2MjE0NFxyXG4iLCJ0eXBlIjoib2ZmZXIifQ=="
-)
-
 // nolint:cyclop
 func main() {
 	fmt.Println("start....")
@@ -43,7 +39,7 @@ func main() {
 	// Configure our SettingEngine to use our UDPMux. By default a PeerConnection has
 	// no global state. The API+SettingEngine allows the user to share state between them.
 	// In this case we are sharing our listening port across many.
-	// Listen on UDP Port 8443, will be used for all WebRTC traffic
+	// Listen on UDP Port 1985, will be used for all WebRTC traffic
 	mux, err := ice.NewMultiUDPMuxFromPort(1985, ice.UDPMuxFromPortWithNetworks(ice.NetworkTypeUDP4), ice.UDPMuxFromPortWithLoopback())
 	if err != nil {
 		panic(err)
@@ -53,10 +49,6 @@ func main() {
 
 	// Create a new API using our SettingEngine
 	api := webrtc.NewAPI(webrtc.WithSettingEngine(settingEngine))
-	// g, err := api.NewICEGatherer(webrtc.ICEGatherOptions{
-	// 	ICEServers:      configure.ICEServers,
-	// 	ICEGatherPolicy: configure.ICETransportPolicy,
-	// })
 
 	// Create a new RTCPeerConnection
 	peerConnection, err := api.NewPeerConnection(configure)
@@ -104,7 +96,7 @@ func main() {
 			ticker := time.NewTicker(5 * time.Second)
 			defer ticker.Stop()
 			for range ticker.C {
-				message, sendErr := randutil.GenerateCryptoRandomString(15, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+				message, sendErr := randutil.GenerateCryptoRandomString(15, "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 				if sendErr != nil {
 					panic(sendErr)
 				}
